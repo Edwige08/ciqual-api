@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.routers import foods
 from app.database import engine, Base
 
@@ -12,6 +13,15 @@ app = FastAPI(
 )
 
 app.include_router(foods.router)
+
+# Configuration des CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "https://dietetic-lab.vercel.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
